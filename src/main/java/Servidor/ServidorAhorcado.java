@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ServidorAhorcado {
 
@@ -33,10 +34,12 @@ public class ServidorAhorcado {
         int idPalabra = (int) (Math.random() * 100) + 1;
         String palabra = HibernateUtil.getPalabra(idPalabra);
         int intentos = palabra.length();
+        char[] pista = generarPista(palabra);
 
         System.out.println("\nEl id a buscar es: " + idPalabra);
         System.out.println("La palabra escogida es: " + palabra);
         System.out.println("El numero de intentos es: " + intentos);
+        System.out.println("La pista es: " + Arrays.toString(pista));
 
         try {
             ServerSocket servidor = new ServerSocket(puerto);
@@ -52,15 +55,49 @@ public class ServidorAhorcado {
             jugadores.add(new Jugador(nombreJugador));
             HibernateUtil.persistenciaJugadores(jugadores);
 
+            flujoSalida.writeUTF("Bienvenido al juego del ahorcado, " + nombreJugador + ".\nPalabra a buscar: " +
+                    Arrays.toString(pista) + " Nº de intentos: " + intentos);
+
             while(true) {
+                char letra = flujoEntrada.readChar();
+                pista = comprobarLetra(pista, letra, palabra);
 
-
+                intentos--;
+                if (intentos==0){
+                    flujoSalida.writeUTF("Has agotado todos los intentos.");
+                    break;
+                }
+                else{
+                    flujoSalida.writeUTF("\nPalabra a buscar: " + Arrays.toString(pista) + " Nº de intentos: " + intentos);
+                }
             }
+
+            flujoEntrada.close();
+            flujoSalida.close();
+            cliente.close();
+            servidor.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private static char[] comprobarLetra(char[] pista, char letra, String palabra) {
+        for (int i =0; i<palabra.length(); i++){
+            if (palabra.charAt(i)==letra){
+                pista[i]=letra;
+            }
+        }
+        return pista;
+    }
+
+    private static char[] generarPista(String palabra) {
+        char[]pista = new char[palabra.length()];
+        for (int i=0; i<palabra.length(); i++){
+            pista[i] = '_';
+        }
+        return pista;
     }
 
 
