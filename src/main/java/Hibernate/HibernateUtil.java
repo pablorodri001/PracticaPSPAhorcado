@@ -138,6 +138,29 @@ public class HibernateUtil {
         return target;
     }
 
+    public static int getPartida(){
+        StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
+
+        Session sesion = sf.openSession();
+        sesion.beginTransaction();
+
+        Query<Jugada> query1 = sesion.createQuery("FROM Jugada ORDER BY idPartida DESC", Jugada.class);
+        List<Jugada> jugadas = query1.getResultList();
+        int partidaActual=0;
+
+        for(Jugada j : jugadas){
+            partidaActual = j.getIdPartida() + 1;
+        }
+
+        sesion.getTransaction().commit();
+
+        sesion.close();
+        sf.close();
+
+        return partidaActual;
+    }
+
     public static void main(String[] args) {
         //Si no está creada la Tabla de palabras -> poner create en el .cfg y ejecutar la siguiente línea:
         HibernateUtil.leerPalabras();

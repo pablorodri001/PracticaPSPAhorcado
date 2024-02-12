@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -26,11 +27,11 @@ public class ServidorAhorcado {
     //  5. Repetir hasta adivinar todas las letras o hasta que se agoten los intentos.
 
     public static void main(String[] args) {
+        int puerto = 4500;
 
         ArrayList<Jugador> jugadores = new ArrayList<>();
         ArrayList<Jugada> jugadas = new ArrayList<>();
 
-        int puerto = 4500;
         int idPalabra = (int) (Math.random() * 100) + 1;
         String palabra = HibernateUtil.getPalabra(idPalabra);
         int intentos = palabra.length();
@@ -58,10 +59,18 @@ public class ServidorAhorcado {
             flujoSalida.writeUTF("Bienvenido al juego del ahorcado, " + nombreJugador + ".\nPalabra a buscar: " +
                     Arrays.toString(pista) + " Nº de intentos: " + intentos);
 
+            int partidaActual = HibernateUtil.getPartida();
+            int jugadaActual = 1;
+
             while(true) {
-                //AQUÍ FALTA CREAR LA JUGADA
                 char letra = flujoEntrada.readChar();
+
                 pista = comprobarLetra(pista, letra, palabra);
+
+                LocalDateTime h = LocalDateTime.now();
+                //Falta por implementar puntuaciones
+                jugadas.add(new Jugada(partidaActual, jugadaActual, 1, h));
+                jugadaActual++;
 
                 intentos--;
                 if (intentos==0){
@@ -72,6 +81,8 @@ public class ServidorAhorcado {
                     flujoSalida.writeUTF("\nPalabra a buscar: " + Arrays.toString(pista) + " Nº de intentos: " + intentos);
                 }
             }
+
+            HibernateUtil.persistenciaJugadas(jugadas);
 
             flujoEntrada.close();
             flujoSalida.close();
