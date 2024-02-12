@@ -42,7 +42,7 @@ public class HibernateUtil {
         return sessionfactory;
     }
 
-    public static void persistenciaJugadores(ArrayList<Jugador> listaJugadores) {
+    public static void persistenciaJugadores(ArrayList<Jugador> listaJugadores) { //Crear tabla Jugadores
 
         StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
@@ -60,7 +60,7 @@ public class HibernateUtil {
         sf.close();
     }
 
-    public static void persistenciaJugadas(ArrayList<Jugada> listaJugadas) {
+    public static void persistenciaJugadas(ArrayList<Jugada> listaJugadas) { //Crear tabla Jugadas
 
         StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
@@ -78,7 +78,7 @@ public class HibernateUtil {
         sf.close();
     }
 
-    public static void persistenciaPalabras(ArrayList<String> listaPalabras) {
+    public static void persistenciaPalabras(ArrayList<String> listaPalabras) { //Crear tabla Palabras
 
         StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
@@ -96,7 +96,7 @@ public class HibernateUtil {
         sf.close();
     }
 
-    public static void leerPalabras(){
+    public static void leerPalabras(){ //Este método lee las palabras del .txt y crea la tabla
         try {
             ArrayList<String> palabras = new ArrayList<>();
 
@@ -113,7 +113,7 @@ public class HibernateUtil {
         }
     }
 
-    public static String getPalabra(int id){
+    public static String getPalabra(int id){ //Este método devuelve palabra correspondiente al id que le metas
         StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
 
