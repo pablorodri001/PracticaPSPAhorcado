@@ -59,6 +59,7 @@ public class ServidorAhorcado {
                     Arrays.toString(pista) + " Nº de intentos: " + intentos);
 
             while(true) {
+                //AQUÍ FALTA CREAR LA JUGADA
                 char letra = flujoEntrada.readChar();
                 pista = comprobarLetra(pista, letra, palabra);
 
