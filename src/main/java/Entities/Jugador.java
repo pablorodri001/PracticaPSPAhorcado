@@ -1,15 +1,17 @@
 package Entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Jugador {
+    @Id
     private int id;
+    @Column
     private String nombre;
 
-    @Override
-    public String toString() {
-        return "Jugadores{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                '}';
+    public Jugador() {
     }
 
     public Jugador(int id, String nombre) {
@@ -33,6 +35,11 @@ public class Jugador {
         this.nombre = nombre;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Jugadores{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                '}';
+    }
 }
