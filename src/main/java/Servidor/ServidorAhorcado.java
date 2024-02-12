@@ -21,7 +21,6 @@ public class ServidorAhorcado {
 
     public static void main(String[] args) {
         int puerto = 4500;
-        //Nº aleatorio 1-100. Hay que ajustarlo al número de palabras que tengamos:
         int idPalabra = (int) (Math.random() * 100) + 1;
 
         try {

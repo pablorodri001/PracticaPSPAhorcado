@@ -15,7 +15,6 @@
         <!-- si solo quieres actualizar es en vez de "create" es "update" -->
         <mapping class="Entities.Jugador"/>
         <mapping class="Entities.Palabra"/>
-
-
+        <mapping class="Entities.Jugada"/>
     </session-factory>
 </hibernate-configuration>
