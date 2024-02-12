@@ -147,10 +147,13 @@ public class HibernateUtil {
 
         Query<Jugada> query1 = sesion.createQuery("FROM Jugada ORDER BY idPartida DESC", Jugada.class);
         List<Jugada> jugadas = query1.getResultList();
-        int partidaActual=0;
+        int partidaActual=1;
 
         for(Jugada j : jugadas){
-            partidaActual = j.getIdPartida() + 1;
+            if (j.getIdPartida()>=1){
+                partidaActual = j.getIdPartida()+1;
+            };
+            break;
         }
 
         sesion.getTransaction().commit();

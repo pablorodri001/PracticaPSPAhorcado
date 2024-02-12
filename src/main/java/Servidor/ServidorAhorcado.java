@@ -5,8 +5,8 @@ import Entities.Jugador;
 import Hibernate.HibernateUtil;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDateTime;
@@ -50,11 +50,11 @@ public class ServidorAhorcado {
             cliente = servidor.accept();
 
             DataInputStream flujoEntrada = new DataInputStream(cliente.getInputStream());
-            ObjectOutputStream flujoSalida = new ObjectOutputStream(cliente.getOutputStream());
+            DataOutputStream flujoSalida = new DataOutputStream(cliente.getOutputStream());
 
             String nombreJugador = flujoEntrada.readUTF();
             jugadores.add(new Jugador(nombreJugador));
-            HibernateUtil.persistenciaJugadores(jugadores);
+            System.out.println(nombreJugador);
 
             flujoSalida.writeUTF("Bienvenido al juego del ahorcado, " + nombreJugador + ".\nPalabra a buscar: " +
                     Arrays.toString(pista) + " Nº de intentos: " + intentos);
@@ -63,7 +63,7 @@ public class ServidorAhorcado {
             int jugadaActual = 1;
 
             while(true) {
-                char letra = flujoEntrada.readChar();
+                String letra = flujoEntrada.readUTF();
 
                 pista = comprobarLetra(pista, letra, palabra);
 
@@ -83,6 +83,7 @@ public class ServidorAhorcado {
             }
 
             HibernateUtil.persistenciaJugadas(jugadas);
+            HibernateUtil.persistenciaJugadores(jugadores);
 
             flujoEntrada.close();
             flujoSalida.close();
@@ -95,10 +96,10 @@ public class ServidorAhorcado {
 
     }
 
-    private static char[] comprobarLetra(char[] pista, char letra, String palabra) {
+    private static char[] comprobarLetra(char[] pista, String letra, String palabra) {
         for (int i =0; i<palabra.length(); i++){
-            if (palabra.charAt(i)==letra){
-                pista[i]=letra;
+            if (Character.toLowerCase(palabra.charAt(i))==Character.toLowerCase(letra.charAt(0))){
+                pista[i]=letra.charAt(0);
             }
         }
         return pista;
@@ -111,6 +112,4 @@ public class ServidorAhorcado {
         }
         return pista;
     }
-
-
 }
