@@ -7,6 +7,13 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class HibernateUtil {
+
+    //Por hacer (Aquí o en clase a parte):
+    //  -Método para leer palabras del txt y crear la tabla Palabras
+    //  -Método para crear/updatear tabla Jugadores
+    //  -Método para crear/updatear tabla Jugadas
+    //  -Método para obtener palabra a partir del id
+
     private static StandardServiceRegistry registro;
     private static SessionFactory sessionfactory=null;
 
