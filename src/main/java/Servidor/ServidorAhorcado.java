@@ -68,7 +68,7 @@ public class ServidorAhorcado {
                 pista = comprobarLetra(pista, letra, palabra);
 
                 LocalDateTime h = LocalDateTime.now();
-                //Falta por implementar puntuaciones
+                //FALTA POR IMPLEMENTAR: PUNTUACIONES Y DETECTAR CUANDO SE HA COMPLETADO LA PALABRA
                 jugadas.add(new Jugada(partidaActual, jugadaActual, 1, h));
                 jugadaActual++;
 
