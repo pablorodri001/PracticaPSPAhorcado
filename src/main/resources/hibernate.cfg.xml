@@ -13,8 +13,8 @@
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- si solo quieres actualizar es en vez de "create" es "update" -->
-        <mapping class="Entities.Jugadores"/>
-        <mapping class="Entities.Palabras"/>
+        <mapping class="Entities.Jugador"/>
+        <mapping class="Entities.Palabra"/>
 
 
     </session-factory>

@@ -1,6 +1,6 @@
 package Entities;
 
-public class Palabras {
+public class Palabra {
     private int id;
     private String palabra;
 
@@ -32,7 +32,7 @@ public class Palabras {
 
 
 
-    public Palabras(int id, String palabra) {
+    public Palabra(int id, String palabra) {
         this.id = id;
         this.palabra = palabra;
     }

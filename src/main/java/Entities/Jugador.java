@@ -1,6 +1,6 @@
 package Entities;
 
-public class Jugadores {
+public class Jugador {
     private int id;
     private String nombre;
 
@@ -12,7 +12,7 @@ public class Jugadores {
                 '}';
     }
 
-    public Jugadores(int id, String nombre) {
+    public Jugador(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
