@@ -20,6 +20,10 @@ public class ServidorAhorcado {
     //  5. Repetir hasta adivinar todas las letras o hasta que se agoten los intentos.
 
     public static void main(String[] args) {
+
+        //Si no está creada la Tabla de palabras -> poner create en el .cfg y ejecutar la siguiente línea:
+        //HibernateUtil.leerPalabras();
+
         int puerto = 4500;
         int idPalabra = (int) (Math.random() * 100) + 1;
 

@@ -3,10 +3,11 @@ package Entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-public class Jugada {
+public class Jugada implements Serializable {
     @Id
     private int idPartida;
     @Id
