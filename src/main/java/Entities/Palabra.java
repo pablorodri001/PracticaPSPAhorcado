@@ -1,12 +1,11 @@
 package Entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Palabra {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String palabra;
@@ -16,6 +15,10 @@ public class Palabra {
 
     public Palabra(int id, String palabra) {
         this.id = id;
+        this.palabra = palabra;
+    }
+
+    public Palabra(String palabra) {
         this.palabra = palabra;
     }
 

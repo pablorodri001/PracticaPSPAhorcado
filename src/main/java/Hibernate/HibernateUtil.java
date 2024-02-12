@@ -9,11 +9,13 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class HibernateUtil {
@@ -76,7 +78,7 @@ public class HibernateUtil {
         sf.close();
     }
 
-    public static void persistenciaPalabras(ArrayList<Palabra> listaPalabras) {
+    public static void persistenciaPalabras(ArrayList<String> listaPalabras) {
 
         StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
@@ -84,8 +86,8 @@ public class HibernateUtil {
         Session sesion = sf.openSession();
         sesion.beginTransaction();
 
-        for(Palabra palabra : listaPalabras) {
-            sesion.save(palabra);
+        for(String palabra : listaPalabras) {
+            sesion.save(new Palabra(palabra));
         }
 
         sesion.getTransaction().commit();
@@ -96,25 +98,48 @@ public class HibernateUtil {
 
     public static void leerPalabras(){
         try {
-            ArrayList<String> strings = new ArrayList<>();
-            ArrayList<Palabra> palabras = new ArrayList<>();
+            ArrayList<String> palabras = new ArrayList<>();
 
             BufferedReader br = new BufferedReader(new FileReader("src/main/resources/palabras.txt"));
             Stream<String> lineas = br.lines();
             lineas.forEach(linea-> {
-                strings.add(linea);
+                palabras.add(linea);
             });
-
-            int contador = 1;
-            for (String s : strings){
-                palabras.add(new Palabra(contador, s));
-                contador++;
-            }
 
             persistenciaPalabras(palabras);
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String getPalabra(int id){
+        StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
+
+        Session sesion = sf.openSession();
+        sesion.beginTransaction();
+
+        Query<Palabra> query1 = sesion.createQuery("FROM Palabra", Palabra.class);
+        List<Palabra> palabras = query1.getResultList();
+
+        String target = null;
+        for(Palabra p : palabras){
+            if (p.getId() == id){
+                target = p.getPalabra();
+            }
+        }
+
+        sesion.getTransaction().commit();
+
+        sesion.close();
+        sf.close();
+
+        return target;
+    }
+
+    public static void main(String[] args) {
+        //Si no está creada la Tabla de palabras -> poner create en el .cfg y ejecutar la siguiente línea:
+        HibernateUtil.leerPalabras();
     }
 }

@@ -1,17 +1,20 @@
 package Entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Jugador {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String nombre;
 
     public Jugador() {
+    }
+
+    public Jugador(String nombre) {
+        this.nombre = nombre;
     }
 
     public Jugador(int id, String nombre) {

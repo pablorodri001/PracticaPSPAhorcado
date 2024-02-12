@@ -1,10 +1,15 @@
 package Servidor;
 
+import Entities.Jugada;
+import Entities.Jugador;
+import Hibernate.HibernateUtil;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ServidorAhorcado {
 
@@ -21,29 +26,41 @@ public class ServidorAhorcado {
 
     public static void main(String[] args) {
 
-        //Si no está creada la Tabla de palabras -> poner create en el .cfg y ejecutar la siguiente línea:
-        //HibernateUtil.leerPalabras();
+        ArrayList<Jugador> jugadores = new ArrayList<>();
+        ArrayList<Jugada> jugadas = new ArrayList<>();
 
         int puerto = 4500;
         int idPalabra = (int) (Math.random() * 100) + 1;
+        String palabra = HibernateUtil.getPalabra(idPalabra);
+        int intentos = palabra.length();
+
+        System.out.println("\nEl id a buscar es: " + idPalabra);
+        System.out.println("La palabra escogida es: " + palabra);
+        System.out.println("El numero de intentos es: " + intentos);
 
         try {
             ServerSocket servidor = new ServerSocket(puerto);
 
             Socket cliente = null;
-            System.out.println("Esperando al cliente..........");
+            System.out.println("\nEsperando al cliente..........");
             cliente = servidor.accept();
 
             DataInputStream flujoEntrada = new DataInputStream(cliente.getInputStream());
             ObjectOutputStream flujoSalida = new ObjectOutputStream(cliente.getOutputStream());
 
+            String nombreJugador = flujoEntrada.readUTF();
+            jugadores.add(new Jugador(nombreJugador));
+            HibernateUtil.persistenciaJugadores(jugadores);
+
             while(true) {
+
 
             }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
 
