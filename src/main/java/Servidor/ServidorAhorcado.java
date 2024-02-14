@@ -33,7 +33,7 @@ public class ServidorAhorcado {
         ArrayList<Jugada> jugadas = new ArrayList<>();
 
         int idPalabra = (int) (Math.random() * 100) + 1;
-        String palabra = HibernateUtil.getPalabra(idPalabra);
+        String palabra = HibernateUtil.getPalabra(idPalabra).toLowerCase();
         int intentos = palabra.length();
         char[] pista = generarPista(palabra);
 
@@ -62,10 +62,11 @@ public class ServidorAhorcado {
             int partidaActual = HibernateUtil.getPartida();
             int jugadaActual = 1;
 
-            while(true) {
+            for(int i=0;i<palabra.length();i++){
                 String letra = flujoEntrada.readUTF();
 
                 pista = comprobarLetra(pista, letra, palabra);
+
 
                 LocalDateTime h = LocalDateTime.now();
                 //FALTA POR IMPLEMENTAR: PUNTUACIONES Y DETECTAR CUANDO SE HA COMPLETADO LA PALABRA
@@ -73,28 +74,41 @@ public class ServidorAhorcado {
                 jugadaActual++;
 
                 intentos--;
-                if (intentos==0){
-                    flujoSalida.writeUTF("Has agotado todos los intentos.");
-                    break;
+                String palabraCliente=new String(pista);
+                System.out.println(palabraCliente);
+                if(palabraCliente.equals(palabra)){
+                    flujoSalida.writeUTF("Has ganado enhorabuena");
+                    cerrarServer(jugadas,jugadores,flujoEntrada,flujoSalida,cliente,servidor);
                 }
+                 else if (intentos==0){
+                    flujoSalida.writeUTF("Has agotado todos los intentos , la palabra era: "+palabra);
+                    cerrarServer(jugadas,jugadores,flujoEntrada,flujoSalida,cliente,servidor);
+
+                }
+
                 else{
                     flujoSalida.writeUTF("\nPalabra a buscar: " + Arrays.toString(pista) + " Nº de intentos: " + intentos);
                 }
             }
 
-            HibernateUtil.persistenciaJugadas(jugadas);
-            HibernateUtil.persistenciaJugadores(jugadores);
 
-            flujoEntrada.close();
-            flujoSalida.close();
-            cliente.close();
-            servidor.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
+
+    private static void cerrarServer(ArrayList<Jugada> jugadas, ArrayList<Jugador> jugadores, DataInputStream flujoEntrada, DataOutputStream flujoSalida, Socket cliente, ServerSocket servidor) throws IOException {
+        HibernateUtil.persistenciaJugadas(jugadas);
+        HibernateUtil.persistenciaJugadores(jugadores);
+        flujoEntrada.close();
+        flujoSalida.close();
+        cliente.close();
+        servidor.close();
+    }
+
+
 
     private static char[] comprobarLetra(char[] pista, String letra, String palabra) {
         for (int i =0; i<palabra.length(); i++){
