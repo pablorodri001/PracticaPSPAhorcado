@@ -32,52 +32,25 @@ public class ClienteAhorcado {
             int intentos= Integer.parseInt(auxiliar[2]);
             System.out.println(respuesta);
 
-            for(int i=0;i<intentos;i++){
-
-                System.out.println("Desea introducir una palabra o una letra? (1 o 2)?");
-                int opcion=new Scanner(System.in).nextInt();
-
-                switch(opcion){
-                    case 1:
-                        System.out.println("Introduzca la palabra");
-                        String palabra=leerString();
-                        flujoSalida.writeUTF(palabra);
-                        System.out.println(flujoEntrada.readUTF());
-                        if(respuesta.equals("Has ganado enhorabuena")){
-                            System.out.println(respuesta);
-                            flujoEntrada.close();
-                            flujoSalida.close();
-                            cliente.close();}
-                        break;
-                    case 2:
-                        System.out.print("Introduce letra: ");
-                        String letra = leerString();
-                        flujoSalida.writeUTF(letra);
-                        System.out.println(flujoEntrada.readUTF());
-                        if(respuesta.equals("Has ganado enhorabuena")){
-                            System.out.println(respuesta);
-
-                            flujoEntrada.close();
-                            flujoSalida.close();
-                            cliente.close();}
-
-                        break;
-
-                    default:
-                        break;
-                }
-
-        }
-            cliente.close();
-            flujoEntrada.close();
-            flujoSalida.close();
-
-
-
+            for(int i=0;i<intentos;i++) {
                 System.out.print("Introduce letra: ");
                 String letra = leerString();
                 flujoSalida.writeUTF(letra);
                 System.out.println(flujoEntrada.readUTF());
+                if (respuesta.equals("Has ganado enhorabuena")) {
+                    System.out.println(respuesta);
+
+                    flujoEntrada.close();
+                    flujoSalida.close();
+                    cliente.close();
+                }
+
+            }
+
+            cliente.close();
+            flujoEntrada.close();
+            flujoSalida.close();
+
 
 
 
