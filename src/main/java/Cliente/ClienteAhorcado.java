@@ -33,6 +33,7 @@ public class ClienteAhorcado {
             System.out.println(respuesta);
 
             for(int i=0;i<intentos;i++){
+
                 System.out.println("Desea introducir una palabra o una letra? (1 o 2)?");
                 int opcion=new Scanner(System.in).nextInt();
 
@@ -70,6 +71,17 @@ public class ClienteAhorcado {
             cliente.close();
             flujoEntrada.close();
             flujoSalida.close();
+
+
+
+                System.out.print("Introduce letra: ");
+                String letra = leerString();
+                flujoSalida.writeUTF(letra);
+                System.out.println(flujoEntrada.readUTF());
+
+
+
+
         }catch (IOException ex) {
             throw new RuntimeException(ex);
 
