@@ -1,8 +1,6 @@
 package Entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -10,8 +8,14 @@ import java.time.LocalDateTime;
 public class Jugada implements Serializable {
     @Id
     private int idPartida;
+
     @Id
     private int idJugada;
+
+   /* @ManyToOne
+    @JoinColumn(name = "idJugador")
+    private Jugador idJugador;
+*/
     @Column
     private int puntuacion;
     @Column
@@ -20,11 +24,12 @@ public class Jugada implements Serializable {
     public Jugada() {
     }
 
-    public Jugada(int idPartida, int idJugada, int puntuacion, LocalDateTime fechaHora) {
+    public Jugada(int idPartida, int idJugada, int puntuacion, LocalDateTime fechaHora /*,Jugador idJugador*/) {
         this.idPartida = idPartida;
         this.idJugada = idJugada;
         this.puntuacion = puntuacion;
         this.fechaHora = fechaHora;
+        /*this.idJugador=idJugador;*/
     }
 
     public int getIdPartida() {

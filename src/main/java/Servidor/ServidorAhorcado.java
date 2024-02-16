@@ -53,7 +53,8 @@ public class ServidorAhorcado {
             DataOutputStream flujoSalida = new DataOutputStream(cliente.getOutputStream());
 
             String nombreJugador = flujoEntrada.readUTF();
-            jugadores.add(new Jugador(nombreJugador));
+            Jugador jugador1=new Jugador(nombreJugador);
+            jugadores.add(jugador1);
             System.out.println(nombreJugador);
 
             flujoSalida.writeUTF("Bienvenido al juego del ahorcado, " + nombreJugador + ".\nPalabra a buscar: " +
@@ -69,11 +70,14 @@ public class ServidorAhorcado {
 
                 LocalDateTime h = LocalDateTime.now();
                 //FALTA POR IMPLEMENTAR: PUNTUACIONES Y DETECTAR CUANDO SE HA COMPLETADO LA PALABRA
-                jugadas.add(new Jugada(partidaActual, jugadaActual, 1, h));
+                jugadas.add(new Jugada(partidaActual, jugadaActual, 1, h/*,jugador1*/));
                 jugadaActual++;
                 intentos--;
                 String palabraCliente=new String(pista);
                 System.out.println(palabraCliente);
+                if(Arrays.toString(pista).contains(letra)){
+                    intentos++;
+                }
                 if(palabraCliente.equals(palabra)){
                     flujoSalida.writeUTF("Has ganado enhorabuena");
                     cerrarServer(jugadas,jugadores,flujoEntrada,flujoSalida,cliente,servidor);

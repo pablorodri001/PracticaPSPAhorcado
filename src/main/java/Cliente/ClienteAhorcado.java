@@ -32,7 +32,7 @@ public class ClienteAhorcado {
             int intentos= Integer.parseInt(auxiliar[2]);
             System.out.println(respuesta);
 
-            for(int i=0;i<intentos;i++) {
+            while(true) {
                 System.out.print("Introduce letra: ");
                 String letra = leerString();
                 flujoSalida.writeUTF(letra);
@@ -41,8 +41,8 @@ public class ClienteAhorcado {
                 if (respuesta2.equals("Has ganado enhorabuena")) {
                     break;
                 }
-
             }
+
 
             cliente.close();
             flujoEntrada.close();
