@@ -36,13 +36,10 @@ public class ClienteAhorcado {
                 System.out.print("Introduce letra: ");
                 String letra = leerString();
                 flujoSalida.writeUTF(letra);
-                System.out.println(flujoEntrada.readUTF());
-                if (respuesta.equals("Has ganado enhorabuena")) {
-                    System.out.println(respuesta);
-
-                    flujoEntrada.close();
-                    flujoSalida.close();
-                    cliente.close();
+                String respuesta2 = flujoEntrada.readUTF();
+                System.out.println(respuesta2);
+                if (respuesta2.equals("Has ganado enhorabuena")) {
+                    break;
                 }
 
             }
