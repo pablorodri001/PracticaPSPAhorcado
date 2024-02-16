@@ -2,6 +2,7 @@ package Servidor;
 
 import Entities.Jugada;
 import Entities.Jugador;
+import Entities.Palabra;
 import Hibernate.HibernateUtil;
 
 import java.io.DataInputStream;
@@ -34,6 +35,7 @@ public class ServidorAhorcado {
 
         int idPalabra = (int) (Math.random() * 100) + 1;
         String palabra = HibernateUtil.getPalabra(idPalabra).toLowerCase();
+        Palabra palabraGenerada=new Palabra(idPalabra,palabra);
         int intentos = palabra.length();
         char[] pista = generarPista(palabra);
 
@@ -70,7 +72,7 @@ public class ServidorAhorcado {
 
                 LocalDateTime h = LocalDateTime.now();
                 //FALTA POR IMPLEMENTAR: PUNTUACIONES Y DETECTAR CUANDO SE HA COMPLETADO LA PALABRA
-                jugadas.add(new Jugada(partidaActual, jugadaActual, 1, h/*,jugador1*/));
+                jugadas.add(new Jugada(jugador1,palabraGenerada,h,comprobarAcierto()));
                 jugadaActual++;
                 intentos--;
                 String palabraCliente=new String(pista);

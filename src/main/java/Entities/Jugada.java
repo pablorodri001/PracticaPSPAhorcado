@@ -1,5 +1,7 @@
 package Entities;
 
+import jdk.jfr.Timespan;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -7,10 +9,14 @@ import java.time.LocalDateTime;
 @Entity
 public class Jugada implements Serializable {
     @Id
-    private int idPartida;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Jugador idJugador;
 
     @Id
-    private int idJugada;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idPalabra")
+    private Palabra idPalabra;
 
    /* @ManyToOne
     @JoinColumn(name = "idJugador")
@@ -18,59 +24,18 @@ public class Jugada implements Serializable {
 */
     @Column
     private int puntuacion;
-    @Column
+    @Id
+    @Timespan
     private LocalDateTime fechaHora;
+    @Column
+    private boolean correcto;
 
-    public Jugada() {
-    }
-
-    public Jugada(int idPartida, int idJugada, int puntuacion, LocalDateTime fechaHora /*,Jugador idJugador*/) {
-        this.idPartida = idPartida;
-        this.idJugada = idJugada;
+    public Jugada(Jugador idJugador, Palabra idPalabra, int puntuacion, LocalDateTime fechaHora, boolean correcto) {
+        this.idJugador = idJugador;
+        this.idPalabra = idPalabra;
         this.puntuacion = puntuacion;
         this.fechaHora = fechaHora;
-        /*this.idJugador=idJugador;*/
-    }
-
-    public int getIdPartida() {
-        return idPartida;
-    }
-
-    public void setIdPartida(int idPartida) {
-        this.idPartida = idPartida;
-    }
-
-    public int getIdJugada() {
-        return idJugada;
-    }
-
-    public void setIdJugada(int idJugada) {
-        this.idJugada = idJugada;
-    }
-
-    public int getPuntuacion() {
-        return puntuacion;
-    }
-
-    public void setPuntuacion(int puntuacion) {
-        this.puntuacion = puntuacion;
-    }
-
-    public LocalDateTime getFechaHora() {
-        return fechaHora;
-    }
-
-    public void setFechaHora(LocalDateTime fechaHora) {
-        this.fechaHora = fechaHora;
-    }
-
-    @Override
-    public String toString() {
-        return "Jugadas{" +
-                "idPartida=" + idPartida +
-                ", idJugada=" + idJugada +
-                ", puntuacion=" + puntuacion +
-                ", fechaHora=" + fechaHora +
-                '}';
+        this.correcto = correcto;
     }
 }
+

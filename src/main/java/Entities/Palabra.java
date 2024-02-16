@@ -6,15 +6,15 @@ import javax.persistence.*;
 public class Palabra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int idPalabra;
     @Column
     private String palabra;
 
     public Palabra() {
     }
 
-    public Palabra(int id, String palabra) {
-        this.id = id;
+    public Palabra(int idPalabra, String palabra) {
+        this.idPalabra = idPalabra;
         this.palabra = palabra;
     }
 
@@ -23,11 +23,11 @@ public class Palabra {
     }
 
     public int getId() {
-        return id;
+        return idPalabra;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.idPalabra = idPalabra;
     }
 
     public String getPalabra() {
@@ -41,7 +41,7 @@ public class Palabra {
     @Override
     public String toString() {
         return "Palabras{" +
-                "id=" + id +
+                "id=" + idPalabra +
                 ", palabra='" + palabra + '\'' +
                 '}';
     }
