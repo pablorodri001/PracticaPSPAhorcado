@@ -29,6 +29,7 @@ public class ServidorAhorcado {
 
     public static void main(String[] args) {
         int puerto = 4500;
+        boolean acierto=false;
 
         ArrayList<Jugador> jugadores = new ArrayList<>();
         ArrayList<Jugada> jugadas = new ArrayList<>();
@@ -67,19 +68,21 @@ public class ServidorAhorcado {
 
             for(int i=0;i<palabra.length();i++){
                 String letra = flujoEntrada.readUTF();
-                if(letra.length()==1){
                 pista = comprobarLetra(pista, letra, palabra);
-
-                LocalDateTime h = LocalDateTime.now();
-                //FALTA POR IMPLEMENTAR: PUNTUACIONES Y DETECTAR CUANDO SE HA COMPLETADO LA PALABRA
-                jugadas.add(new Jugada(jugador1,palabraGenerada,h,comprobarAcierto()));
-                jugadaActual++;
-                intentos--;
                 String palabraCliente=new String(pista);
                 System.out.println(palabraCliente);
                 if(Arrays.toString(pista).contains(letra)){
+                    acierto=true;
                     intentos++;
                 }
+
+
+                LocalDateTime h = LocalDateTime.now();
+                //FALTA POR IMPLEMENTAR: PUNTUACIONES Y DETECTAR CUANDO SE HA COMPLETADO LA PALABRA
+                jugadas.add(new Jugada(jugador1,palabraGenerada,h,comprobarAcierto(acierto)));
+                jugadaActual++;
+                intentos--;
+
                 if(palabraCliente.equals(palabra)){
                     flujoSalida.writeUTF("Has ganado enhorabuena");
                     cerrarServer(jugadas,jugadores,flujoEntrada,flujoSalida,cliente,servidor);
@@ -92,7 +95,7 @@ public class ServidorAhorcado {
 
                 else{
                     flujoSalida.writeUTF("\nPalabra a buscar: " + Arrays.toString(pista) + " Nº de intentos: " + intentos);
-                }}
+                }
             }
 
 
@@ -101,6 +104,11 @@ public class ServidorAhorcado {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private static boolean comprobarAcierto(boolean acierto) {
+
+        return acierto;
     }
 
     private static void cerrarServer(ArrayList<Jugada> jugadas, ArrayList<Jugador> jugadores, DataInputStream flujoEntrada, DataOutputStream flujoSalida, Socket cliente, ServerSocket servidor) throws IOException {

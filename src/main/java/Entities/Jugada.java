@@ -18,22 +18,15 @@ public class Jugada implements Serializable {
     @JoinColumn(name = "idPalabra")
     private Palabra idPalabra;
 
-   /* @ManyToOne
-    @JoinColumn(name = "idJugador")
-    private Jugador idJugador;
-*/
-    @Column
-    private int puntuacion;
     @Id
     @Timespan
     private LocalDateTime fechaHora;
     @Column
     private boolean correcto;
 
-    public Jugada(Jugador idJugador, Palabra idPalabra, int puntuacion, LocalDateTime fechaHora, boolean correcto) {
+    public Jugada(Jugador idJugador, Palabra idPalabra, LocalDateTime fechaHora, boolean correcto) {
         this.idJugador = idJugador;
         this.idPalabra = idPalabra;
-        this.puntuacion = puntuacion;
         this.fechaHora = fechaHora;
         this.correcto = correcto;
     }
