@@ -52,7 +52,8 @@ public class ServidorAhorcado {
             flujoSalida.writeUTF("Bienvenido al juego del ahorcado, " + nombreJugador + ".\nPalabra: " +
                     Arrays.toString(pista) + " Nº de intentos: " + intentos);
 
-            while(true){
+            boolean fin = false;
+            while(!fin){
                 String letra = flujoEntrada.readUTF();
                 LocalDateTime hora = LocalDateTime.now();
                 int puntos = 0;
@@ -75,11 +76,11 @@ public class ServidorAhorcado {
                 if(palabraCliente.equals(palabra)){
                     flujoSalida.writeUTF("Has ganado, enhorabuena! La palabra era: " + palabra);
                     puntos = 50;
-                    break;
+                    fin = true;
                 }
                  else if (intentos==0){
                     flujoSalida.writeUTF("Has agotado todos los intentos, la palabra era: " + palabra);
-                    break;
+                    fin = true;
                 }
                 else{
                     flujoSalida.writeUTF("Palabra a buscar: " + Arrays.toString(pista) + " Nº de intentos: " + intentos);
