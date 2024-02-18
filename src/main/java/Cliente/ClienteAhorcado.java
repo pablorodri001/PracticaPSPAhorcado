@@ -17,12 +17,12 @@ public class ClienteAhorcado {
             DataOutputStream flujoSalida = new DataOutputStream(cliente.getOutputStream());
             DataInputStream flujoEntrada = new DataInputStream(cliente.getInputStream());
 
-            System.out.print("Introduzce nombre: ");
+            System.out.print("Introduce tu nombre: ");
             String nombre = leerString();
             flujoSalida.writeUTF(nombre);
 
             String respuesta = flujoEntrada.readUTF();
-            System.out.println(respuesta);
+            System.out.println("\n" + respuesta);
 
             while(true) {
                 System.out.print("Introduce letra: ");

@@ -42,7 +42,7 @@ public class HibernateUtil {
         return sessionfactory;
     }
 
-    public static void persistenciaJugadoresJugadas(ArrayList<Jugador> listaJugadores, ArrayList<Jugada> listaJugadas ) { //Crear tabla Jugadores
+    public static void persistenciaJugadores(Jugador jugador) {
 
         StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
@@ -50,9 +50,22 @@ public class HibernateUtil {
         Session sesion = sf.openSession();
         sesion.beginTransaction();
 
-        for(Jugador jugador : listaJugadores) {
-            sesion.save(jugador);
-        }
+        sesion.save(jugador);
+
+
+        sesion.getTransaction().commit();
+
+        sesion.close();
+        sf.close();
+    }
+
+    public static void persistenciaJugadas(ArrayList<Jugada> listaJugadas ) {
+
+        StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
+        SessionFactory sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
+
+        Session sesion = sf.openSession();
+        sesion.beginTransaction();
 
         for(Jugada jugada : listaJugadas) {
             sesion.save(jugada);
@@ -64,7 +77,7 @@ public class HibernateUtil {
         sf.close();
     }
 
-    public static void persistenciaPalabras(ArrayList<String> listaPalabras) { //Crear tabla Palabras
+    public static void persistenciaPalabras(ArrayList<String> listaPalabras) {
 
         StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
@@ -82,7 +95,7 @@ public class HibernateUtil {
         sf.close();
     }
 
-    public static void leerPalabras(){ //Este método lee las palabras del .txt y crea la tabla
+    public static void leerPalabras(){
         try {
             ArrayList<String> palabras = new ArrayList<>();
 
@@ -99,7 +112,7 @@ public class HibernateUtil {
         }
     }
 
-    public static String getPalabra(int id){ //Este método devuelve palabra correspondiente al id que le metas
+    public static String getPalabra(int id){
         StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
 

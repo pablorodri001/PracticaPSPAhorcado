@@ -1,57 +1,32 @@
 package Entities;
 
-import jdk.jfr.Timespan;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Entity
-@IdClass(JugadaId.class)
 public class Jugada implements Serializable {
-    @Id
-    @ManyToOne(cascade = {CascadeType.MERGE})
-    private Jugador idJugador;
-    @Id
-    @ManyToOne
-    private Palabra idPalabra;
-    @Id
-    private LocalDateTime fechaHora;
+    @EmbeddedId
+    JugadaId id;
     @Column
     private boolean correcto;
+    @Column
+    private int puntos;
 
     public Jugada() {
     }
 
-    public Jugada(Jugador idJugador, Palabra idPalabra, LocalDateTime fechaHora, boolean correcto) {
-        this.idJugador = idJugador;
-        this.idPalabra = idPalabra;
-        this.fechaHora = fechaHora;
+    public Jugada(JugadaId id, boolean correcto, int puntos) {
+        this.id = id;
         this.correcto = correcto;
+        this.puntos = puntos;
     }
 
-    public Jugador getIdJugador() {
-        return idJugador;
+    public JugadaId getId() {
+        return id;
     }
 
-    public void setIdJugador(Jugador idJugador) {
-        this.idJugador = idJugador;
-    }
-
-    public Palabra getIdPalabra() {
-        return idPalabra;
-    }
-
-    public void setIdPalabra(Palabra idPalabra) {
-        this.idPalabra = idPalabra;
-    }
-
-    public LocalDateTime getFechaHora() {
-        return fechaHora;
-    }
-
-    public void setFechaHora(LocalDateTime fechaHora) {
-        this.fechaHora = fechaHora;
+    public void setId(JugadaId id) {
+        this.id = id;
     }
 
     public boolean isCorrecto() {
@@ -60,6 +35,14 @@ public class Jugada implements Serializable {
 
     public void setCorrecto(boolean correcto) {
         this.correcto = correcto;
+    }
+
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
     }
 }
 

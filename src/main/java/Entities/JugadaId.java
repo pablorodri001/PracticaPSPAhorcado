@@ -1,8 +1,9 @@
 package Entities;
 
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
+@Embeddable
 public class JugadaId implements Serializable {
     private int idJugador;
     private int idPalabra;

@@ -1,6 +1,7 @@
 package Servidor;
 
 import Entities.Jugada;
+import Entities.JugadaId;
 import Entities.Jugador;
 import Entities.Palabra;
 import Hibernate.HibernateUtil;
@@ -46,15 +47,15 @@ public class ServidorAhorcado {
 
             String nombreJugador = flujoEntrada.readUTF();
             Jugador jugador = new Jugador(nombreJugador);
-            jugadores.add(jugador);
+            HibernateUtil.persistenciaJugadores(jugador);
 
-            flujoSalida.writeUTF("Bienvenido al juego del ahorcado, " + nombreJugador + ".\nPalabra a buscar: " +
+            flujoSalida.writeUTF("Bienvenido al juego del ahorcado, " + nombreJugador + ".\nPalabra: " +
                     Arrays.toString(pista) + " Nº de intentos: " + intentos);
 
-            for(int i=0; i<palabra.length(); i++){
+            while(true){
                 String letra = flujoEntrada.readUTF();
-                LocalDateTime h = LocalDateTime.now();
-                intentos--;
+                LocalDateTime hora = LocalDateTime.now();
+                int puntos = 0;
 
                 pista = comprobarLetra(pista, letra, palabra);
                 String palabraCliente = new String(pista);
@@ -62,17 +63,18 @@ public class ServidorAhorcado {
 
                 if(Arrays.toString(pista).contains(letra)){
                     acierto=true;
+                    puntos = 10;
                     flujoSalida.writeUTF("Acierto!");
                 }
                 else{
                     acierto = false;
                     flujoSalida.writeUTF("Error!");
+                    intentos--;
                 }
 
-                jugadas.add(new Jugada(jugador, palabraGenerada, h, acierto));
-
                 if(palabraCliente.equals(palabra)){
-                    flujoSalida.writeUTF("Has ganado, enhorabuena");
+                    flujoSalida.writeUTF("Has ganado, enhorabuena! La palabra era: " + palabra);
+                    puntos = 50;
                     break;
                 }
                  else if (intentos==0){
@@ -82,6 +84,8 @@ public class ServidorAhorcado {
                 else{
                     flujoSalida.writeUTF("Palabra a buscar: " + Arrays.toString(pista) + " Nº de intentos: " + intentos);
                 }
+
+                jugadas.add(new Jugada(new JugadaId(jugador.getId(), palabraGenerada.getId(), hora), acierto, puntos));
             }
 
             cerrarServer(jugadas, jugadores, flujoEntrada, flujoSalida, cliente, servidor);
@@ -94,7 +98,7 @@ public class ServidorAhorcado {
 
     private static void cerrarServer(ArrayList<Jugada> jugadas, ArrayList<Jugador> jugadores, DataInputStream flujoEntrada, DataOutputStream flujoSalida, Socket cliente, ServerSocket servidor) throws IOException {
 
-        HibernateUtil.persistenciaJugadoresJugadas(jugadores, jugadas);
+        HibernateUtil.persistenciaJugadas(jugadas);
 
         flujoEntrada.close();
         flujoSalida.close();
