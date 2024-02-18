@@ -9,6 +9,7 @@ public class JugadaId implements Serializable {
     private int idPalabra;
     private LocalDateTime fechaHora;
 
+
     public JugadaId() {
     }
 

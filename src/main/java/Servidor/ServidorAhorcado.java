@@ -86,7 +86,7 @@ public class ServidorAhorcado {
                     flujoSalida.writeUTF("Palabra a buscar: " + Arrays.toString(pista) + " Nº de intentos: " + intentos);
                 }
 
-                jugadas.add(new Jugada(new JugadaId(jugador.getId(), palabraGenerada.getId(), hora), acierto, puntos));
+                jugadas.add(new Jugada(jugador, palabraGenerada, hora, acierto, puntos));
             }
 
             cerrarServer(jugadas, jugadores, flujoEntrada, flujoSalida, cliente, servidor);
