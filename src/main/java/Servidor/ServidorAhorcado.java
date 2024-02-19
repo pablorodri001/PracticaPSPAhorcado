@@ -1,7 +1,6 @@
 package Servidor;
 
 import Entities.Jugada;
-import Entities.JugadaId;
 import Entities.Jugador;
 import Entities.Palabra;
 import Hibernate.HibernateUtil;
@@ -85,7 +84,7 @@ public class ServidorAhorcado {
                     flujoSalida.writeUTF("Palabra a buscar: " + Arrays.toString(pista) + " Nº de intentos: " + intentos);
                 }
 
-                jugadas.add(new Jugada(new JugadaId(jugador, palabraGenerada, hora), acierto, puntos));
+                jugadas.add(new Jugada(jugador, palabraGenerada, hora, acierto, puntos));
             }
 
             cerrarServer(jugadas, jugadores, flujoEntrada, flujoSalida, cliente, servidor);
