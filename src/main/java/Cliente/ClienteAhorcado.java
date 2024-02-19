@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class ClienteAhorcado {
 
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ) {
         String host = "localhost";
         int puerto = 4500;
 

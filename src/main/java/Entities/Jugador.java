@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Jugador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int idJugador;
     @Column
     private String nombre;
 
@@ -17,17 +17,12 @@ public class Jugador {
         this.nombre = nombre;
     }
 
-    public Jugador(int id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
+    public int getIdJugador() {
+        return idJugador;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setIdJugador(int idJugador) {
+        this.idJugador = idJugador;
     }
 
     public String getNombre() {
@@ -41,7 +36,7 @@ public class Jugador {
     @Override
     public String toString() {
         return "Jugadores{" +
-                "id=" + id +
+                "id=" + idJugador +
                 ", nombre='" + nombre + '\'' +
                 '}';
     }

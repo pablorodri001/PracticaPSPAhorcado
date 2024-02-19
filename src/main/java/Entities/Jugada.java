@@ -2,20 +2,11 @@ package Entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Entity
-@IdClass(JugadaId.class)
 public class Jugada implements Serializable {
-    @Id
-    @ManyToOne(cascade = {CascadeType.MERGE})
-    private Jugador idJugador;
-    @Id
-    @ManyToOne
-    private Palabra idPalabra;
-
-    @Id
-    private LocalDateTime fechaHora;
+    @EmbeddedId
+    private JugadaId idJugada;
 
     @Column
     private boolean correcto;
@@ -25,20 +16,18 @@ public class Jugada implements Serializable {
     public Jugada() {
     }
 
-    public Jugada(Jugador idJugador, Palabra idPalabra, LocalDateTime fechaHora, boolean correcto, int puntos) {
-        this.idJugador = idJugador;
-        this.idPalabra = idPalabra;
-        this.fechaHora = fechaHora;
+    public Jugada(JugadaId idJugada, boolean correcto, int puntos) {
+        this.idJugada = idJugada;
         this.correcto = correcto;
         this.puntos = puntos;
     }
 
-    public LocalDateTime getFechaHora() {
-        return fechaHora;
+    public JugadaId getIdJugada() {
+        return idJugada;
     }
 
-    public void setFechaHora(LocalDateTime fechaHora) {
-        this.fechaHora = fechaHora;
+    public void setIdJugada(JugadaId idJugada) {
+        this.idJugada = idJugada;
     }
 
     public boolean isCorrecto() {

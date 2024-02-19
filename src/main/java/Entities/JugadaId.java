@@ -1,38 +1,44 @@
 package Entities;
 
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 @Embeddable
 public class JugadaId implements Serializable {
-    private int idJugador;
-    private int idPalabra;
+    @ManyToOne
+    @JoinColumn(name = "idJugador")
+    private Jugador jugador;
+    @ManyToOne
+    @JoinColumn(name = "idPalabra")
+    private Palabra palabra;
     private LocalDateTime fechaHora;
 
 
     public JugadaId() {
     }
 
-    public JugadaId(int idJugador, int idPalabra, LocalDateTime fechaHora) {
-        this.idJugador = idJugador;
-        this.idPalabra = idPalabra;
+    public JugadaId(Jugador jugador, Palabra palabra, LocalDateTime fechaHora) {
+        this.jugador = jugador;
+        this.palabra = palabra;
         this.fechaHora = fechaHora;
     }
 
-    public int getIdJugador() {
-        return idJugador;
+    public Jugador getJugador() {
+        return jugador;
     }
 
-    public void setIdJugador(int idJugador) {
-        this.idJugador = idJugador;
+    public void setJugador(Jugador jugador) {
+        this.jugador = jugador;
     }
 
-    public int getIdPalabra() {
-        return idPalabra;
+    public Palabra getPalabra() {
+        return palabra;
     }
 
-    public void setIdPalabra(int idPalabra) {
-        this.idPalabra = idPalabra;
+    public void setPalabra(Palabra palabra) {
+        this.palabra = palabra;
     }
 
     public LocalDateTime getFechaHora() {
